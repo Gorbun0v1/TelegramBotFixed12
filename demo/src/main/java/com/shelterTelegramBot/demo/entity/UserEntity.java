@@ -1,9 +1,10 @@
 package com.shelterTelegramBot.demo.entity;
 import lombok.*;
 import lombok.experimental.Accessors;
-import org.hibernate.annotations.CreationTimestamp;
+
+
 import javax.persistence.*;
-import java.time.OffsetDateTime;
+
 
 @Setter
 @Getter
@@ -23,6 +24,4 @@ public class UserEntity {
 
     @Column(name = "username", nullable = false)
     private String username;
-
-
 }
