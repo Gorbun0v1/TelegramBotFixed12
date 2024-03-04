@@ -2,7 +2,7 @@ databaseChangeLog:
   - logicalFilePath: 0.1/user-table
   - changeSet:
       id: user-table-0
-      author: alina
+      author: anton
       changes:
         - createTable:
             schemaName: public

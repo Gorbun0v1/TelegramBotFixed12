@@ -20,8 +20,8 @@ public class UserEntity {
     private Long id;
 
     @Column(name = "chat_id", nullable = false)
-    private String chatId;
+    private Long chatId;
 
-    @Column(name = "username", nullable = false)
-    private String username;
+    @Column(name = "name", nullable = false)
+    private String name;
 }

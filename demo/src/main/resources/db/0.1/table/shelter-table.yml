@@ -1,0 +1,38 @@
+databaseChangeLog:
+  - logicalFilePath: 0.1/shelter-table
+  - changeSet:
+      id: shelter-table-0
+      author: anton
+      changes:
+        - createTable:
+            schemaName: public
+            tableName: shelter
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: text
+                  constraints:
+                    nullable: false
+              - column:
+                  name: schedule #график работы
+                  type: text
+                  constraints:
+                    nullable: false
+              - column:
+                  name: driving_directions #схема проезда
+                  type: text
+              - column:
+                  name: guard_details #охрана
+                  type: text
+                  constraints:
+                    nullable: false
+              - column:
+                  name: safety_precautions #ТБ
+                  type: text

@@ -10,5 +10,5 @@ spring:
     enabled: true
 telegram:
   bot:
-    token: 5963599480:AAEISmTiVX4k5U96GKT6RzrDTJroPZyk00U
-    name: MyDogShelterBot
+    token: 6614391649:AAHS7jOXkTogeiJSF4NOk3z35UibSzA_YQs
+    name: SheltersSkyProBot
