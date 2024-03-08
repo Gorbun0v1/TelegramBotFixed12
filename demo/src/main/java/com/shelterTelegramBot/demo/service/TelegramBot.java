@@ -58,6 +58,9 @@ public class TelegramBot extends TelegramLongPollingBot {
             if (callBackData.equals(ButtonsNames.INFO_ABOUT_SHELTER_BUTTON_DATA)) {
                 setSheltersMenuBot(chatId, "Приюты: ");
             }
+            if (callBackData.contains("*")) {
+                setShelterInfoMenu(chatId, "Что Вы хотите узнать?");
+            }
         }
     }
 
@@ -94,7 +97,7 @@ public class TelegramBot extends TelegramLongPollingBot {
     private void setSheltersMenuBot(Long chatId, String text) {
         List<List<String>> lists = new ArrayList<>();
         for (ShelterEntity shelterEntity : shelterRepository.findAll()) {
-            lists.add(List.of(shelterEntity.getName(), shelterEntity.getName().toUpperCase() + "_BUTTON"));
+            lists.add(List.of(shelterEntity.getName(), shelterEntity.getName().toUpperCase() + "_*" + "_BUTTON"));
         }
         setKeyboard(chatId, text, lists, 1);
 //        lists.add(List.of(buttonsNames.getClass().getName(), buttonsNames.getClass().getName()));
@@ -107,12 +110,11 @@ public class TelegramBot extends TelegramLongPollingBot {
         lists.add(List.of(ButtonsNames.DRIVING_DIRECTIONS_BUTTON_NAME, ButtonsNames.DRIVING_DIRECTIONS_BUTTON_DATA));
         lists.add(List.of(ButtonsNames.GUARD_DETAILS_BUTTON_NAME, ButtonsNames.GUARD_DETAILS_BUTTON_DATA));
         lists.add(List.of(ButtonsNames.SAFETY_PRECAUTIONS_BUTTON_NAME, ButtonsNames.SAFETY_PRECAUTIONS_BUTTON_DATA));
-
+        setKeyboard(chatId,text, lists, 2);
     }
 
     private void setStarMenuBot(Long chatId, String text) {
         List<List<String>> lists = new ArrayList<>();
-
         lists.add(List.of(ButtonsNames.INFO_ABOUT_SHELTER_BUTTON_NAME, ButtonsNames.INFO_ABOUT_SHELTER_BUTTON_DATA));
         lists.add(List.of(ButtonsNames.GET_PET_FROM_SHELTER_BUTTON_NAME, ButtonsNames.GET_PET_FROM_SHELTER_BUTTON_DATA));
         lists.add(List.of(ButtonsNames.SEND_REPORT_PETS_BUTTON_NAME, ButtonsNames.SEND_REPORT_PETS_BUTTON_DATA));
