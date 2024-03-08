@@ -1,5 +1,6 @@
 package com.shelterTelegramBot.demo.repository;
 
+import com.shelterTelegramBot.demo.entity.ShelterEntity;
 import com.shelterTelegramBot.demo.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

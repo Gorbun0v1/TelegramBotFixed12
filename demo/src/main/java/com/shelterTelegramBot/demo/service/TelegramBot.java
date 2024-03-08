@@ -1,8 +1,11 @@
 package com.shelterTelegramBot.demo.service;
 
 import com.shelterTelegramBot.demo.configuration.BotConfiguration;
+import com.shelterTelegramBot.demo.entity.ShelterEntity;
 import com.shelterTelegramBot.demo.entity.UserEntity;
+import com.shelterTelegramBot.demo.repository.ShelterRepository;
 import com.shelterTelegramBot.demo.repository.UserRepository;
+import com.shelterTelegramBot.demo.utils.ButtonsNames;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -19,13 +22,16 @@ import java.util.List;
 @Component
 public class TelegramBot extends TelegramLongPollingBot {
     private final UserRepository userRepository;
-    public TelegramBot(UserRepository userRepository, BotConfiguration configuration) {
+    private final BotConfiguration configuration;
+    private final ShelterRepository shelterRepository;
+    public TelegramBot(UserRepository userRepository, BotConfiguration configuration, ShelterRepository shelterRepository) {
         super(configuration.getToken());
         this.userRepository = userRepository;
         this.configuration = configuration;
+        this.shelterRepository = shelterRepository;
     }
 
-    private final BotConfiguration configuration;
+
 
 
     @Override
@@ -35,6 +41,7 @@ public class TelegramBot extends TelegramLongPollingBot {
             chatId = update.getMessage().getChatId();
             String name = update.getMessage().getChat().getFirstName();
             String text = update.getMessage().getText();
+            //setSheltersMenuBot(chatId, "Приюты: ");
             if (userRepository.findByChatId(chatId).isPresent()){
                 sendMessage(chatId, "И снова здравствуйте!");
                 // setChoosesShelterButton(chatId, "Выберите приют");
@@ -45,6 +52,12 @@ public class TelegramBot extends TelegramLongPollingBot {
                 userRepository.save(userEntity);
             }
             setStarMenuBot(chatId, "General Menu");
+        } else if (update.hasCallbackQuery()) {
+            chatId = update.getCallbackQuery().getMessage().getChatId();
+            String callBackData = update.getCallbackQuery().getData();
+            if (callBackData.equals(ButtonsNames.INFO_ABOUT_SHELTER_BUTTON_DATA)) {
+                setSheltersMenuBot(chatId, "Приюты: ");
+            }
         }
     }
 
@@ -77,13 +90,32 @@ public class TelegramBot extends TelegramLongPollingBot {
         sendMessageWithKeyboard(chatId, text, keyboard);
     }
 
+
+    private void setSheltersMenuBot(Long chatId, String text) {
+        List<List<String>> lists = new ArrayList<>();
+        for (ShelterEntity shelterEntity : shelterRepository.findAll()) {
+            lists.add(List.of(shelterEntity.getName(), shelterEntity.getName().toUpperCase() + "_BUTTON"));
+        }
+        setKeyboard(chatId, text, lists, 1);
+//        lists.add(List.of(buttonsNames.getClass().getName(), buttonsNames.getClass().getName()));
+//        lists.add(List.of("Взять животное", "GET_PET_FROM_SHELTER_BUTTON"));
+//        setKeyboard(chatId, text, lists, 1);
+    }
+    private void setShelterInfoMenu(Long chatId, String text) {
+        List<List<String>> lists = new ArrayList<>();
+        lists.add(List.of(ButtonsNames.SCHEDULE_BUTTON_NAME, ButtonsNames.SCHEDULE_BUTTON_DATA));
+        lists.add(List.of(ButtonsNames.DRIVING_DIRECTIONS_BUTTON_NAME, ButtonsNames.DRIVING_DIRECTIONS_BUTTON_DATA));
+        lists.add(List.of(ButtonsNames.GUARD_DETAILS_BUTTON_NAME, ButtonsNames.GUARD_DETAILS_BUTTON_DATA));
+        lists.add(List.of(ButtonsNames.SAFETY_PRECAUTIONS_BUTTON_NAME, ButtonsNames.SAFETY_PRECAUTIONS_BUTTON_DATA));
+
+    }
+
     private void setStarMenuBot(Long chatId, String text) {
         List<List<String>> lists = new ArrayList<>();
-        lists.add(List.of("Информация о приюте", "INFO_ABOUT_SHELTER_BUTTON"));
-        lists.add(List.of("Взять животное", "GET_PET_FROM_SHELTER_BUTTON"));
-        lists.add(List.of("Отчет о питомце", "SEND_REPORT_PETS_BUTTON"));
-        lists.add(List.of("Позвать волонтера", "CALL_VOLUNTEER_BUTTON"));
-        lists.add(List.of("Выбрать приют", "ChoosesShelterButton"));
+        lists.add(List.of(ButtonsNames.INFO_ABOUT_SHELTER_BUTTON_NAME, ButtonsNames.INFO_ABOUT_SHELTER_BUTTON_DATA));
+        lists.add(List.of(ButtonsNames.GET_PET_FROM_SHELTER_BUTTON_NAME, ButtonsNames.GET_PET_FROM_SHELTER_BUTTON_DATA));
+        lists.add(List.of(ButtonsNames.SEND_REPORT_PETS_BUTTON_NAME, ButtonsNames.SEND_REPORT_PETS_BUTTON_DATA));
+        lists.add(List.of(ButtonsNames.CALL_VOLUNTEER_BUTTON_NAME, ButtonsNames.CALL_VOLUNTEER_BUTTON_DATA));
         setKeyboard(chatId, text, lists, 2);
     }
 
