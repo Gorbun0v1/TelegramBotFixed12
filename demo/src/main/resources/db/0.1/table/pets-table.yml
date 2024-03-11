@@ -1,0 +1,64 @@
+databaseChangeLog:
+  - logicalFilePath: 0.1/pets-table
+  - changeSet:
+      id: pets-table-0
+      author: anton
+      changes:
+        - createTable:
+            schemaName: public
+            tableName: pets
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: owner_id
+                  type: bigint
+              - column:
+                  name: name
+                  type: text
+                  constraints:
+                    nullable: false
+              - column:
+                  name: age #Возраст
+                  type: integer
+                  constraints:
+                    nullable: false
+              - column:
+                  name: breed #Порода
+                  type: text
+                  constraints:
+                    nullable: false
+              - column:
+                  name: comment #Комментарий про животное
+                  type: text
+#
+#              - column:
+#                  name: documents_pets #Список дкументов для забора животного
+#                  type: boolean
+#                  constraints:
+#                    nullable: false
+#              - column:
+#                  name: refusal_to_issue_animal #Отказ в выдаче животного
+#                  type: text
+#              - column:
+#                  name: transportation_recommendations #Рекомендации транспортировки
+#                  type: text
+#                  constraints:
+#                    nullable: false
+#              - column:
+#                  name: recommendations_puppy_house #Рекомендации обустройства дома для щенков
+#                  type: text
+#              - column:
+#                  name: recommendations_house #Рекомендации обустройства дома
+#                  type: text
+#              - column:
+#                  name: recommendations_animal_with_disabilities #Рекомендации обустройства дома для животного с ограниченными возможностями
+#                  type: text
+#              - column:
+#                  name: recommendations_dog_handler #Советы кинолога
+#                  type: text

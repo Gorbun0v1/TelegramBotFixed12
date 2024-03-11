@@ -3,6 +3,8 @@ package com.shelterTelegramBot.demo.service;
 import com.shelterTelegramBot.demo.configuration.BotConfiguration;
 import com.shelterTelegramBot.demo.entity.ShelterEntity;
 import com.shelterTelegramBot.demo.entity.UserEntity;
+import com.shelterTelegramBot.demo.repository.PetRepository;
+import com.shelterTelegramBot.demo.repository.PetRepository;
 import com.shelterTelegramBot.demo.repository.ShelterRepository;
 import com.shelterTelegramBot.demo.repository.UserRepository;
 import com.shelterTelegramBot.demo.utils.ButtonsNames;
@@ -24,14 +26,18 @@ public class TelegramBot extends TelegramLongPollingBot {
     private final UserRepository userRepository;
     private final BotConfiguration configuration;
     private final ShelterRepository shelterRepository;
-    public TelegramBot(UserRepository userRepository, BotConfiguration configuration, ShelterRepository shelterRepository) {
+    private final PetRepository petRepository;
+
+    public TelegramBot(UserRepository userRepository,
+                       BotConfiguration configuration,
+                       ShelterRepository shelterRepository,
+                       PetRepository petRepository) {
         super(configuration.getToken());
         this.userRepository = userRepository;
         this.configuration = configuration;
         this.shelterRepository = shelterRepository;
+        this.petRepository = petRepository;
     }
-
-
 
 
     @Override
@@ -41,12 +47,9 @@ public class TelegramBot extends TelegramLongPollingBot {
             chatId = update.getMessage().getChatId();
             String name = update.getMessage().getChat().getFirstName();
             String text = update.getMessage().getText();
-            //setSheltersMenuBot(chatId, "Приюты: ");
-            if (userRepository.findByChatId(chatId).isPresent()){
+            if (userRepository.findByChatId(chatId).isPresent()) {
                 sendMessage(chatId, "И снова здравствуйте!");
-                // setChoosesShelterButton(chatId, "Выберите приют");
-            }
-            else {
+            } else {
                 UserEntity userEntity = new UserEntity().setChatId(chatId).setName(name);
                 sendMessage(chatId, "Привет привет");
                 userRepository.save(userEntity);
@@ -58,17 +61,13 @@ public class TelegramBot extends TelegramLongPollingBot {
             if (callBackData.equals(ButtonsNames.INFO_ABOUT_SHELTER_BUTTON_DATA)) {
                 setSheltersMenuBot(chatId, "Приюты: ");
             }
-            if (callBackData.contains("*")) {
-                setShelterInfoMenu(chatId, "Что Вы хотите узнать?");
+            if (callBackData.contains("SHELTERS")) {
+                Long shelterId = Long.parseLong(callBackData.split("_")[0]);
+                setShelterInfoMenu(chatId, "Что Вы хотите узнать?", shelterId);
             }
+
         }
     }
-
-//    private void setChoosesShelterButton(Long chatId, String text) {
-//        List<List<String>> shelterButton = new ArrayList<>();
-//        shelterButton.add(List.of("Выбрать приют", "ChoosesShelterButton"));
-//        setKeyboard(chatId, text, shelterButton, 1);
-//    }
 
     private void setKeyboard(Long chatId, String text, List<List<String>> buttonsInfo, int amountOfRows) {
         //Создание кнопок
@@ -97,20 +96,22 @@ public class TelegramBot extends TelegramLongPollingBot {
     private void setSheltersMenuBot(Long chatId, String text) {
         List<List<String>> lists = new ArrayList<>();
         for (ShelterEntity shelterEntity : shelterRepository.findAll()) {
-            lists.add(List.of(shelterEntity.getName(), shelterEntity.getName().toUpperCase() + "_*" + "_BUTTON"));
+            lists.add(List.of(shelterEntity.getName(), shelterEntity.getId() + "_SHELTERS_" + "BUTTON"));
         }
         setKeyboard(chatId, text, lists, 1);
-//        lists.add(List.of(buttonsNames.getClass().getName(), buttonsNames.getClass().getName()));
-//        lists.add(List.of("Взять животное", "GET_PET_FROM_SHELTER_BUTTON"));
-//        setKeyboard(chatId, text, lists, 1);
     }
-    private void setShelterInfoMenu(Long chatId, String text) {
+
+    private void setShelterInfoMenu(Long chatId, String text, Long shelterId) {
         List<List<String>> lists = new ArrayList<>();
-        lists.add(List.of(ButtonsNames.SCHEDULE_BUTTON_NAME, ButtonsNames.SCHEDULE_BUTTON_DATA));
-        lists.add(List.of(ButtonsNames.DRIVING_DIRECTIONS_BUTTON_NAME, ButtonsNames.DRIVING_DIRECTIONS_BUTTON_DATA));
-        lists.add(List.of(ButtonsNames.GUARD_DETAILS_BUTTON_NAME, ButtonsNames.GUARD_DETAILS_BUTTON_DATA));
-        lists.add(List.of(ButtonsNames.SAFETY_PRECAUTIONS_BUTTON_NAME, ButtonsNames.SAFETY_PRECAUTIONS_BUTTON_DATA));
-        setKeyboard(chatId,text, lists, 2);
+        lists.add(List.of(ButtonsNames.SCHEDULE_BUTTON_NAME, ButtonsNames.SCHEDULE_BUTTON_DATA + "_" + shelterId));
+        lists.add(List.of(ButtonsNames.DRIVING_DIRECTIONS_BUTTON_NAME, ButtonsNames.DRIVING_DIRECTIONS_BUTTON_DATA + "_" + shelterId));
+        lists.add(List.of(ButtonsNames.GUARD_DETAILS_BUTTON_NAME, ButtonsNames.GUARD_DETAILS_BUTTON_DATA + "_" + shelterId));
+        lists.add(List.of(ButtonsNames.SAFETY_PRECAUTIONS_BUTTON_NAME, ButtonsNames.SAFETY_PRECAUTIONS_BUTTON_DATA + "_" + shelterId));
+        setKeyboard(chatId, text, lists, 2);
+    }
+
+    private void setPetsInfoMenu() {
+
     }
 
     private void setStarMenuBot(Long chatId, String text) {
@@ -140,7 +141,7 @@ public class TelegramBot extends TelegramLongPollingBot {
     }
 
     private void sendMessage(Long chatId, String text) {
-       executeMessage(chatId, text, new SendMessage());
+        executeMessage(chatId, text, new SendMessage());
     }
 
     @Override

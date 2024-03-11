@@ -5,3 +5,6 @@ databaseChangeLog:
   - include:
       file: table/shelter-table.yml
       relativeToChangelogFile: true
+  - include:
+      file: table/pets-table.yml
+      relativeToChangelogFile: true
