@@ -1,0 +1,39 @@
+databaseChangeLog:
+  - logicalFilePath: 0.1/rule-table
+  - changeSet:
+      id: rule-table-0
+      author: anton
+      changes:
+        - createTable:
+            schemaName: public
+            tableName: rule
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: rules_dating_pets #Правила знакомства с животным
+                  type: text
+              - column:
+                  name: documents_pets #Список дкументов для забора животного
+                  type: boolean
+                  constraints:
+                    nullable: false
+              - column:
+                  name: refusal_to_issue_animal #Отказ в выдаче животного
+                  type: text
+              - column:
+                  name: transportation_recommendations #Рекомендации транспортировки
+                  type: text
+                  constraints:
+                    nullable: false
+              - column:
+                  name: recommendations_house #Рекомендации обустройства дома, дома для щенков, животного с ограниченными возможностями
+                  type: text
+              - column:
+                  name: recommendations_dog_handler #Советы кинолога
+                  type: text

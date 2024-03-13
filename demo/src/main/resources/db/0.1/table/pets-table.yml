@@ -16,10 +16,10 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: owner_id
+                  name: owner_id #Тут лежит хозяин животного, если он есть
                   type: bigint
               - column:
-                  name: name
+                  name: name #Имя
                   type: text
                   constraints:
                     nullable: false

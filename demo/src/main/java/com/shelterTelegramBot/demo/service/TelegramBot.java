@@ -3,10 +3,8 @@ package com.shelterTelegramBot.demo.service;
 import com.shelterTelegramBot.demo.configuration.BotConfiguration;
 import com.shelterTelegramBot.demo.entity.ShelterEntity;
 import com.shelterTelegramBot.demo.entity.UserEntity;
+import com.shelterTelegramBot.demo.repository.*;
 import com.shelterTelegramBot.demo.repository.PetRepository;
-import com.shelterTelegramBot.demo.repository.PetRepository;
-import com.shelterTelegramBot.demo.repository.ShelterRepository;
-import com.shelterTelegramBot.demo.repository.UserRepository;
 import com.shelterTelegramBot.demo.utils.ButtonsNames;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -27,16 +25,19 @@ public class TelegramBot extends TelegramLongPollingBot {
     private final BotConfiguration configuration;
     private final ShelterRepository shelterRepository;
     private final PetRepository petRepository;
+    private final RuleRepository ruleRepository;
 
     public TelegramBot(UserRepository userRepository,
                        BotConfiguration configuration,
                        ShelterRepository shelterRepository,
-                       PetRepository petRepository) {
+                       PetRepository petRepository,
+                       RuleRepository ruleRepository) {
         super(configuration.getToken());
         this.userRepository = userRepository;
         this.configuration = configuration;
         this.shelterRepository = shelterRepository;
         this.petRepository = petRepository;
+        this.ruleRepository = ruleRepository;
     }
 
 

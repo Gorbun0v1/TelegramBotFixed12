@@ -27,6 +27,6 @@ public class UserEntity {
     @Column(name = "name", nullable = false)
     private String name;
     @OneToMany
-            //@JsonIgnore
+    @JsonIgnore
     Set<PetEntity> pets;
 }
