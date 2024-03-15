@@ -1,9 +1,11 @@
 package com.shelterTelegramBot.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Setter
 @Getter
@@ -27,4 +29,7 @@ public class ShelterEntity {
     String guardDetails;
     @Column(name = "safety_precautions")
     String safetyPrecautions;
+    @OneToMany
+    @JsonIgnore
+    Set<PetEntity> pets;
 }

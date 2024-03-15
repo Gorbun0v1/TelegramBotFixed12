@@ -35,6 +35,10 @@ public class PetEntity {
     @Column(name = "comment")
     private String comment;
 
+    @ManyToOne
+    @JoinColumn(name = "shelter_id", referencedColumnName = "id")
+    private ShelterEntity shelter;
+
 //    @Column(name = "documents_pets")
 //    String documentsPets;
 //    @Column(name = "refusal_to_issue_animal")

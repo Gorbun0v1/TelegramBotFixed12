@@ -33,6 +33,4 @@ public class RuleEntity {
     @Column(name = "recommendations_puppy_house")
     private String house;
 
-    @Column(name = "recommendations_dog_handler")
-    private String dogHandler;
 }

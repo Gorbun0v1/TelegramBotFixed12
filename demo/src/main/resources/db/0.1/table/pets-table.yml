@@ -36,6 +36,12 @@ databaseChangeLog:
               - column:
                   name: comment #Комментарий про животное
                   type: text
+              - column:
+                  name: shelter_id #Приют животного
+                  type: text
+                  constraints:
+                      nullable: false
+
 #
 #              - column:
 #                  name: documents_pets #Список дкументов для забора животного

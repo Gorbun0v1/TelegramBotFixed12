@@ -19,12 +19,10 @@ public class ButtonsNames {
     public static String RECOMMENDATIONS_DOG_HANDLER_BUTTON_NAME = "Советы кинолога";
 
 
-    public static String NAME_BUTTON_NAME = "Имя";
-    public static String AGE_BUTTON_NAME = "Возраст";
-    public static String BREED_BUTTON_NAME = "Порода";
-    public static String COMMENT_BUTTON_NAME = "Комментарий про животное";
-
-
+    public static String PET_NAME_BUTTON_NAME = "Имя";
+    public static String PET_AGE_BUTTON_NAME = "Возраст";
+    public static String PET_BREED_BUTTON_NAME = "Порода";
+    public static String PET_COMMENT_BUTTON_NAME = "Комментарий про животное";
 
 
 
@@ -33,16 +31,16 @@ public class ButtonsNames {
     public static String SEND_REPORT_PETS_BUTTON_DATA = "SEND_REPORT_PETS_BUTTON";
     public static String CALL_VOLUNTEER_BUTTON_DATA = "CALL_VOLUNTEER_BUTTON";
     public static String CHOOSES_SHELTER_BUTTON_DATA = "CHOOSES_SHELTER_BUTTON";
-    public static String SCHEDULE_BUTTON_DATA = "SCHEDULE_BUTTON_DATA";
-    public static String DRIVING_DIRECTIONS_BUTTON_DATA = "DRIVING_DIRECTIONS_BUTTON_DATA";
-    public static String GUARD_DETAILS_BUTTON_DATA = "GUARD_DETAILS_BUTTON_DATA";
-    public static String SAFETY_PRECAUTIONS_BUTTON_DATA = "SAFETY_PRECAUTIONS_BUTTON_DATA";
+    public static String SCHEDULE_BUTTON_DATA = "INFO_SCHEDULE_BUTTON_DATA";
+    public static String DRIVING_DIRECTIONS_BUTTON_DATA = "INFO_DRIVING_DIRECTIONS_BUTTON_DATA";
+    public static String GUARD_DETAILS_BUTTON_DATA = "INFO_GUARD_DETAILS_BUTTON_DATA";
+    public static String SAFETY_PRECAUTIONS_BUTTON_DATA = "INFO_SAFETY_PRECAUTIONS_BUTTON_DATA";
 
 
-    public static String NAME_BUTTON_DATA = "NAME_BUTTON_DATA";
-    public static String AGE_BUTTON_DATA = "AGE_BUTTON_DATA";
-    public static String BREED_BUTTON_DATA = "BREED_BUTTON_DATA";
-    public static String COMMENT_BUTTON_DATA = "COMMENT_BUTTON_DATA";
+    public static String PET_NAME_BUTTON_DATA = "PET_INFO_NAME_BUTTON_DATA";
+    public static String PET_AGE_BUTTON_DATA = "PET_INFO_AGE_BUTTON_DATA";
+    public static String PET_BREED_BUTTON_DATA = "PET_INFO_BREED_BUTTON_DATA";
+    public static String PET_COMMENT_BUTTON_DATA = "PET_INFO_COMMENT_BUTTON_DATA";
 
 
     public static String RULES_DATING_PETS_BUTTON_DATA = "RULES_DATING_PETS_BUTTON_DATA";

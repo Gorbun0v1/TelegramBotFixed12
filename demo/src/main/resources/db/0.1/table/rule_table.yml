@@ -32,8 +32,5 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: recommendations_house #Рекомендации обустройства дома, дома для щенков, животного с ограниченными возможностями
-                  type: text
-              - column:
-                  name: recommendations_dog_handler #Советы кинолога
+                  name: recommendations_house #Рекомендации обустройства дома, дома для щенков, животного с ограниченными возможностями, кинолог
                   type: text

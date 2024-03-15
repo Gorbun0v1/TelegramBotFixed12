@@ -1,6 +1,7 @@
 package com.shelterTelegramBot.demo.service;
 
 import com.shelterTelegramBot.demo.configuration.BotConfiguration;
+import com.shelterTelegramBot.demo.entity.PetEntity;
 import com.shelterTelegramBot.demo.entity.ShelterEntity;
 import com.shelterTelegramBot.demo.entity.UserEntity;
 import com.shelterTelegramBot.demo.repository.*;
@@ -18,6 +19,7 @@ import org.telegram.telegrambots.meta.generics.LongPollingBot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class TelegramBot extends TelegramLongPollingBot {
@@ -62,11 +64,73 @@ public class TelegramBot extends TelegramLongPollingBot {
             if (callBackData.equals(ButtonsNames.INFO_ABOUT_SHELTER_BUTTON_DATA)) {
                 setSheltersMenuBot(chatId, "Приюты: ");
             }
-            if (callBackData.contains("SHELTERS")) {
+            else if (callBackData.contains("SHELTERS")) {
                 Long shelterId = Long.parseLong(callBackData.split("_")[0]);
                 setShelterInfoMenu(chatId, "Что Вы хотите узнать?", shelterId);
+            } else if (callBackData.contains("INFO")) {
+                getInfoByShelterId(chatId, callBackData);
             }
+            if (callBackData.equals(ButtonsNames.GET_PET_FROM_SHELTER_BUTTON_DATA)) {
+                getPetMenu(chatId, "Наши питомцы");
+            } else if (callBackData.contains("PETS")) {
+                Long petId = Long.parseLong(callBackData.split("_")[0]);
+                setPetInfoMenu(chatId, "Что хотите узнать?", petId);
+            } else if (callBackData.contains("PET_INFO")) {
+                getInfoByPetId(chatId, callBackData);
+            }
+        }
+    }
 
+    private void getPetMenu(Long chatId, String text) {
+        List<List<String>> lists = new ArrayList<>();
+        for (PetEntity petEntity : petRepository.findAll()) {
+            lists.add(List.of(petEntity.getBreed() + " " + " возраст: " + petEntity.getAge() + " года ", petEntity.getId() + "_PETS_" + "BUTTON"));
+        }
+        setKeyboard(chatId, text, lists, 2);
+
+        //СОЗДАТЬ КНОПКИ МЕНЮ
+        //ВЫВЕСТИ СПИСОК ЖИВОТНЫХ
+
+    }
+    private void getInfoByPetId(Long chatId, String callBackData) {
+        Long petId = Long.parseLong(callBackData.split("_")[0]);
+        System.out.println(petId.getClass().getName());
+        Optional<PetEntity> pet = petRepository.findById(petId);
+        if (pet.isPresent()) {
+            if (callBackData.contains(ButtonsNames.PET_NAME_BUTTON_DATA)) {
+                sendMessage(chatId, pet.get().getName());
+            } else if (callBackData.contains(ButtonsNames.PET_AGE_BUTTON_DATA)) {
+                sendMessage(chatId, String.valueOf(pet.get().getAge()));
+            } else if (callBackData.contains(ButtonsNames.PET_BREED_BUTTON_DATA)) {
+                sendMessage(chatId, pet.get().getBreed());
+            } else if (callBackData.contains(ButtonsNames.PET_COMMENT_BUTTON_DATA)) {
+                sendMessage(chatId, pet.get().getComment());
+            }
+        }
+    }
+
+    private void setPetInfoMenu(Long chatId, String text, Long petId) {
+        List<List<String>> lists = new ArrayList<>();
+        lists.add(List.of(ButtonsNames.PET_NAME_BUTTON_NAME, petId + "_" + ButtonsNames.PET_NAME_BUTTON_DATA));
+        lists.add(List.of(ButtonsNames.PET_AGE_BUTTON_NAME, petId + "_" + ButtonsNames.PET_AGE_BUTTON_DATA));
+        lists.add(List.of(ButtonsNames.PET_BREED_BUTTON_NAME, petId + "_" + ButtonsNames.PET_BREED_BUTTON_DATA));
+        lists.add(List.of(ButtonsNames.PET_COMMENT_BUTTON_NAME, petId + "_" + ButtonsNames.PET_COMMENT_BUTTON_DATA));
+        setKeyboard(chatId, text, lists, 2);
+    }
+
+    private void getInfoByShelterId(Long chatId, String callBackData) {
+        Long shelterId = Long.parseLong(callBackData.split("_")[0]);
+        Optional<ShelterEntity> shelter = shelterRepository.findById(shelterId);
+        if (shelter.isPresent()) {
+            if (callBackData.contains(ButtonsNames.SCHEDULE_BUTTON_DATA)) {
+                sendMessage(chatId, shelter.get().getSchedule());
+            } else if (callBackData.contains(ButtonsNames.DRIVING_DIRECTIONS_BUTTON_DATA)) {
+                sendMessage(chatId, shelter.get().getDrivingDirections());
+            } else if (callBackData.contains(ButtonsNames.GUARD_DETAILS_BUTTON_DATA)) {
+                sendMessage(chatId, shelter.get().getGuardDetails());
+            } else if (callBackData.contains(ButtonsNames.SAFETY_PRECAUTIONS_BUTTON_DATA)) {
+                sendMessage(chatId, shelter.get().getSafetyPrecautions());
+            }
         }
     }
 
@@ -104,16 +168,13 @@ public class TelegramBot extends TelegramLongPollingBot {
 
     private void setShelterInfoMenu(Long chatId, String text, Long shelterId) {
         List<List<String>> lists = new ArrayList<>();
-        lists.add(List.of(ButtonsNames.SCHEDULE_BUTTON_NAME, ButtonsNames.SCHEDULE_BUTTON_DATA + "_" + shelterId));
-        lists.add(List.of(ButtonsNames.DRIVING_DIRECTIONS_BUTTON_NAME, ButtonsNames.DRIVING_DIRECTIONS_BUTTON_DATA + "_" + shelterId));
-        lists.add(List.of(ButtonsNames.GUARD_DETAILS_BUTTON_NAME, ButtonsNames.GUARD_DETAILS_BUTTON_DATA + "_" + shelterId));
-        lists.add(List.of(ButtonsNames.SAFETY_PRECAUTIONS_BUTTON_NAME, ButtonsNames.SAFETY_PRECAUTIONS_BUTTON_DATA + "_" + shelterId));
+        lists.add(List.of(ButtonsNames.SCHEDULE_BUTTON_NAME, shelterId + "_" + ButtonsNames.SCHEDULE_BUTTON_DATA));
+        lists.add(List.of(ButtonsNames.DRIVING_DIRECTIONS_BUTTON_NAME, shelterId + "_" + ButtonsNames.DRIVING_DIRECTIONS_BUTTON_DATA));
+        lists.add(List.of(ButtonsNames.GUARD_DETAILS_BUTTON_NAME, shelterId + "_" + ButtonsNames.GUARD_DETAILS_BUTTON_DATA));
+        lists.add(List.of(ButtonsNames.SAFETY_PRECAUTIONS_BUTTON_NAME, shelterId + "_" + ButtonsNames.SAFETY_PRECAUTIONS_BUTTON_DATA));
         setKeyboard(chatId, text, lists, 2);
     }
 
-    private void setPetsInfoMenu() {
-
-    }
 
     private void setStarMenuBot(Long chatId, String text) {
         List<List<String>> lists = new ArrayList<>();
