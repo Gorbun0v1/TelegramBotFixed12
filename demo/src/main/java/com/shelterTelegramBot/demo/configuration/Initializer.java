@@ -1,6 +1,6 @@
 package com.shelterTelegramBot.demo.configuration;
 
-import com.shelterTelegramBot.demo.service.TelegramBot;
+import com.shelterTelegramBot.demo.controller.TelegramBotController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
@@ -11,9 +11,9 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 @Slf4j
 @Component
 public class Initializer {
-    TelegramBot telegramBot;
+    TelegramBotController telegramBot;
 
-    public Initializer(TelegramBot telegramBot) {
+    public Initializer(TelegramBotController telegramBot) {
         this.telegramBot = telegramBot;
     }
 
