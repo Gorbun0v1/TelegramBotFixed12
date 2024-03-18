@@ -9,6 +9,8 @@ public class ButtonsNames {
     public static String DRIVING_DIRECTIONS_BUTTON_NAME = "Схема проезда";
     public static String GUARD_DETAILS_BUTTON_NAME = "Охрана";
     public static String SAFETY_PRECAUTIONS_BUTTON_NAME = "Техника безопасности";
+    public static String RECOMMENDATIONS_BUTTON_NAME = "Рекомендации";
+    public static String OUR_PETS_BUTTON_NAME = "Наши питомцы";
 
 
     public static String RULES_DATING_PETS_BUTTON_NAME = "Правила знакомства с животным";
@@ -25,6 +27,10 @@ public class ButtonsNames {
     public static String PET_COMMENT_BUTTON_NAME = "Комментарий про животное";
 
 
+
+
+    public static String RECOMMENDATIONS_BUTTON_DATA = "GETPET_RECOMMENDATIONS_BUTTON_DATA";
+    public static String OUR_PETS_BUTTON_DATA = "GETPET_OUR_PETS_BUTTON_DATA";
 
     public static String INFO_ABOUT_SHELTER_BUTTON_DATA = "INFO_ABOUT_SHELTER_BUTTON";
     public static String GET_PET_FROM_SHELTER_BUTTON_DATA = "GET_PET_FROM_SHELTER_BUTTON";
